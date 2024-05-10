@@ -1,0 +1,39 @@
+import java.io.File;
+import java.io.IOException;
+
+public class DeleteFileOrDirectory {
+    public static void main(String[] args) {
+        try {
+            // Nhập đường dẫn thư mục hoặc tệp từ người dùng
+            String duongDan = "đường_dẫn_của_bạn"; // Thay đổi đường dẫn tại đây
+
+            // Tạo đối tượng File
+            File file = new File(duongDan);
+
+            if (file.exists()) {
+                if (file.isDirectory()) {
+                    // Xoá thư mục
+                    deleteDirectory(file);
+                } else {
+                    // Xoá tệp
+                    file.delete();
+                }
+                System.out.println("Xoá thành công: " + duongDan);
+            } else {
+                System.out.println("Không tìm thấy đường dẫn: " + duongDan);
+            }
+        } catch (Exception e) {
+            System.out.println("Lỗi: " + e.getMessage());
+        }
+    }
+
+    public static void deleteDirectory(File directory) throws IOException {
+        for (File subfile : directory.listFiles()) {
+            if (subfile.isDirectory()) {
+                deleteDirectory(subfile);
+            }
+            subfile.delete();
+        }
+        directory.delete();
+    }
+}
